@@ -49,6 +49,6 @@ MonoBehaviour:
   tilePrefab: {fileID: 2487950337153769212, guid: 3a9e161016d6cb4468e52ee3b511d619,
     type: 3}
   maxCitiesAtStart: 3
-  cityRandomizationFactor: 25
+  cityRandomizationFactor: 20
   cam: {fileID: 0}
   centerCamToGrid: 1
