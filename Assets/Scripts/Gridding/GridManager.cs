@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UIElements;
 
 public class GridManager : MonoBehaviour
 {
@@ -13,6 +14,12 @@ public class GridManager : MonoBehaviour
     [SerializeField] private int gridHeight;
     [SerializeField] private Tile tilePrefab;
 
+    [Header("City Spawning")]
+    [SerializeField] private int maxCitiesAtStart;
+    [Tooltip("The higher the value, the more spaced out the cities will be (be warned that this may spawn lower the amount of cities that spawn)")]
+    [SerializeField] private int cityRandomizationFactor;
+    private List<Tile> currentCities;
+
     [Header("Camera control")]
     [SerializeField] private Transform cam;
     [SerializeField] private bool centerCamToGrid;
@@ -24,6 +31,9 @@ public class GridManager : MonoBehaviour
 
     void GenerateGrid()
     {
+        //Creates a list to store the current cities
+        currentCities = new List<Tile>();
+
         //Takes in the height and width values to generated a grid with that many rows and columns
         for (int x = 0; x < gridWidth; x++)
         {
@@ -35,7 +45,18 @@ public class GridManager : MonoBehaviour
 
                 //This part is just to cycle between the base and the offset colors to get a grid pattern (can be removed as needed)
                 var isOffset = (x % 2 == 0 && z % 2 != 0) || (x % 2 != 0 && z % 2 == 0);
-                spawnedTile.Init(isOffset);
+
+                //Generates cities
+                var isCity = false;
+
+                if (maxCitiesAtStart > currentCities.Count && Random.Range(0, cityRandomizationFactor) == 0)
+                {
+                    isCity = true;
+                    currentCities.Add(spawnedTile);
+                }
+
+                //Spawns the tile objects
+                spawnedTile.Init(isOffset, isCity);
             }
         }
 
