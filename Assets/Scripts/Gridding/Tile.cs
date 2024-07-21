@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.IO.IsolatedStorage;
 using UnityEngine;
 
 public class Tile : MonoBehaviour
@@ -10,27 +11,38 @@ public class Tile : MonoBehaviour
     [SerializeField] private Material cityBaseColor;
     [SerializeField] private Material cityOffsetColor;
 
+    private bool offsetTile;
+
     public void Init(bool isOffset, bool isCity)
     {
         //Fetches the meshRenderer of the tile to edit it's color
         MeshRenderer mR = GetComponent<MeshRenderer>();
 
-        //Checks if it's a city
-        if (isCity)
-        {
-            //Changes the colors to the city variants before applying them
-            baseColor = cityBaseColor;
-            offsetColor = cityOffsetColor;
-        }
-
         //Applies the colors
         if (isOffset)
         {
-            mR.material = offsetColor;
+            if (isCity)
+            {
+                mR.material = cityOffsetColor;
+            }
+            else
+            {
+                mR.material = offsetColor;
+            }
         }
         else
         {
-            mR.material = baseColor;
+            if (isCity)
+            {
+                mR.material = cityBaseColor;
+            }
+            else
+            {
+                mR.material = baseColor;
+            }
         }
+
+        //Retains the offset factor for coloring down the line
+        offsetTile = isOffset;
     }
 }
