@@ -50,5 +50,6 @@ MonoBehaviour:
     type: 3}
   maxCitiesAtStart: 3
   cityRandomizationFactor: 20
+  timeBetweenCityExpansionCycles: 1
   cam: {fileID: 0}
   centerCamToGrid: 1
