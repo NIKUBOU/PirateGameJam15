@@ -48,6 +48,9 @@ public class GridManager : MonoBehaviour
 
     private void Start()
     {
+        //Move the camera
+        MoveCamera();
+
         //Generates the grid
         GenerateGrid();
 
@@ -55,7 +58,14 @@ public class GridManager : MonoBehaviour
         StartCoroutine(CallDevelopCities());
     }
 
-    void GenerateGrid()
+    //Moves the camera to the center of the grid if needed
+    private void MoveCamera()
+    {
+        cam.transform.position = new Vector3((float)gridWidth / 2 - .5f, gridHeight-1, (float)gridHeight / 2 - .5f);
+        cam.transform.rotation = Quaternion.Euler(90, 0, 0);
+    }
+
+    private void GenerateGrid()
     {
         //Creates a list to store the current cities
         currentCities = new List<Tile>();
@@ -91,14 +101,6 @@ public class GridManager : MonoBehaviour
                 //Spawns the tile objects
                 spawnedTile.Init(isOffset, isCity, x, z);
             }
-        }
-        
-
-        //Moves the camera to the center of the grid if needed
-        if (centerCamToGrid)
-        {
-            cam.transform.position = new Vector3((float)gridWidth / 2 - .5f, 10, (float)gridHeight / 2 - .5f);
-            cam.transform.rotation = Quaternion.Euler(90, 0, 0);
         }
     }
 
