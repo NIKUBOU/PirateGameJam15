@@ -9,11 +9,11 @@ public class GridManager : MonoBehaviour
     [Header("Grid Layout")]
 
     //Controls the width of the grid
-    [Tooltip("Keep your aspect ratio in mind (go with multiples of 16)")]
+    [Tooltip("Keep your aspect ratio in mind (by default, keep a 16:9 ratio)")]
     [SerializeField] private int gridWidth;
 
     //Controls the height of the grid
-    [Tooltip("Keep your aspect ratio in mind (go with multiples of 9)")]
+    [Tooltip("Keep your aspect ratio in mind (by default, keep a 16:9 ratio)")]
     [SerializeField] private int gridHeight;
 
     //Holds the tile prefab so that the code can spawn it
@@ -34,17 +34,20 @@ public class GridManager : MonoBehaviour
     private List<Tile> currentCities;
 
     //Controls how often do cities expand
+    [Tooltip("A higher value will cause expansion cycles to have more time between them")]
     [SerializeField] private float timeBetweenCityExpansionCycles; 
 
 
 
     [Header("Camera control")]
 
-    //Holds the camera's position so it can be moved at the start of the game
-    [SerializeField] private Transform cam;
-
     //Just checks if you want the camera to be moved or not
+    [Tooltip("Controls wether the camera automatically calibrates itself to the grid")]
     [SerializeField] private bool centerCamToGrid;
+
+    //Holds the camera's position so it can be moved at the start of the game
+    [Tooltip("Unnecessary if you don't want to center the camera")]
+    [SerializeField] private Transform cam;
 
     private void Start()
     {
