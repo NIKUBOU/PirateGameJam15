@@ -446,21 +446,6 @@ PrefabInstance:
       propertyPath: cam
       value: 
       objectReference: {fileID: 209663626}
-    - target: {fileID: 8448854739783537637, guid: ff49b548eec587d47bc19d1ece47a346,
-        type: 3}
-      propertyPath: centerCamToGrid
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 8448854739783537637, guid: ff49b548eec587d47bc19d1ece47a346,
-        type: 3}
-      propertyPath: maxCitiesAtStart
-      value: 3
-      objectReference: {fileID: 0}
-    - target: {fileID: 8448854739783537637, guid: ff49b548eec587d47bc19d1ece47a346,
-        type: 3}
-      propertyPath: timeBetweenCityExpansionCycles
-      value: 3
-      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
