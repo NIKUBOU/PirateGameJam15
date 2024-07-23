@@ -11,15 +11,16 @@ public class Tile : MonoBehaviour
     [SerializeField] private Material cityBaseColor;
     [SerializeField] private Material cityOffsetColor;
     private MeshRenderer mR;
-
     private bool offsetTile;
+
+    private int tileTier = 0;
+    public int TileTier { get { return tileTier; } }
+
+    //Stats
     private int xID;
     private int zID;
     public int XID { get { return xID; } }
     public int ZID { get { return zID; } }
-
-    [SerializeField] private int tileTier = 0;
-    public int TileTier { get {  return tileTier; } }
 
     public void Init(bool isOffset, bool isCity, int _xID, int _zID)
     {
@@ -62,9 +63,6 @@ public class Tile : MonoBehaviour
     //Upgrades the tier of the tile
     public void TierUp()
     {
-        if (tileTier < 5)
-        {
-            tileTier++;
-        }
+        tileTier++;
     }
 }

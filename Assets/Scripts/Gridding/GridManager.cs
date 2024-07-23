@@ -35,7 +35,14 @@ public class GridManager : MonoBehaviour
 
     //Controls how often do cities expand
     [Tooltip("A higher value will cause expansion cycles to have more time between them")]
-    [SerializeField] private float timeBetweenCityExpansionCycles; 
+    [SerializeField] private float timeBetweenCityExpansionCycles;
+
+    //At which point do cities stop tiering up
+    [SerializeField] private int cityMaxTier;
+
+    //What is the required tier for cities to start growing
+    [Tooltip("At what city tier do they start expanding?")]
+    [SerializeField] private int cityTierRequiredToGrow;
 
 
 
@@ -127,13 +134,16 @@ public class GridManager : MonoBehaviour
         foreach (var spawnedTile in currentCities)
         {
             //If the tile's tier is above 3, it will create a neighboring city
-            if (spawnedTile.TileTier >= 3)
+            if (spawnedTile.TileTier >= cityTierRequiredToGrow)
             {
                 citiesToGrow.Add(spawnedTile);
             }
 
             //Upgrades the city's tier
-            spawnedTile.TierUp();
+            if (spawnedTile.TileTier < cityMaxTier)
+            {
+                spawnedTile.TierUp();
+            }   
         }
 
         //Colonize neighboring tiles of tier 3 cities
