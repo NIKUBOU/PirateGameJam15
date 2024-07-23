@@ -18,6 +18,9 @@ public class Tile : MonoBehaviour
     public int XID { get { return xID; } }
     public int ZID { get { return zID; } }
 
+    [SerializeField] private int tileTier = 0;
+    public int TileTier { get {  return tileTier; } }
+
     public void Init(bool isOffset, bool isCity, int _xID, int _zID)
     {
         //Fetches the meshRenderer of the tile to edit it's color
@@ -27,6 +30,7 @@ public class Tile : MonoBehaviour
         if (isCity)
         {
             mR.material = isOffset ? cityOffsetColor : cityBaseColor;
+            TierUp();
         }
         else
         {
@@ -50,6 +54,17 @@ public class Tile : MonoBehaviour
         else
         {
             mR.material = cityBaseColor;
+        }
+
+        TierUp();
+    }
+
+    //Upgrades the tier of the tile
+    public void TierUp()
+    {
+        if (tileTier < 5)
+        {
+            tileTier++;
         }
     }
 }

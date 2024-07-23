@@ -121,57 +121,72 @@ public class GridManager : MonoBehaviour
     private void DevelopCities()
     {
         //Creates a list of tiles to modify (otherwise when a new city grows it would consider the new city as ungrown)
-        List<Tile> cityTilesToGrow = new List<Tile>();
-        foreach(var spawnedTile in currentCities)
+        List<Tile> citiesToGrow = new List<Tile>();
+
+        //Upgrades tier of cities
+        foreach (var spawnedTile in currentCities)
         {
-            cityTilesToGrow.Add(spawnedTile);
+            //If the tile's tier is above 3, it will create a neighboring city
+            if (spawnedTile.TileTier >= 3)
+            {
+                citiesToGrow.Add(spawnedTile);
+            }
+
+            //Upgrades the city's tier
+            spawnedTile.TierUp();
         }
 
-        //Makes the cities grow
-        foreach (var spawnedTile in cityTilesToGrow)
+        //Colonize neighboring tiles of tier 3 cities
+        foreach (var spawnedTile in citiesToGrow)
         {
-            //Checks neighboring tiles if they already are cities
-            var currentTileXID = spawnedTile.XID;
-            var currentTileZID = spawnedTile.ZID;
+            ColonizeNeighbor(spawnedTile);
+        }
+    }
 
-            // Array to store the coordinates of the neighboring tiles
-            var neighbors = new (int x, int z)[]
-            {
+    private void ColonizeNeighbor(Tile tileToGrow)
+    {
+        //Checks neighboring tiles if they already are cities
+        
+        var currentTileXID = tileToGrow.XID;
+        var currentTileZID = tileToGrow.ZID;
+
+        // Array to store the coordinates of the neighboring tiles
+        var neighbors = new (int x, int z)[]
+        {
                 (currentTileXID - 1, currentTileZID), // left
                 (currentTileXID + 1, currentTileZID), // right
                 (currentTileXID, currentTileZID + 1), // above
                 (currentTileXID, currentTileZID - 1)  // below
-            };
+        };
 
-            //Just a list of all the neighboring grass tiles so one can be chosen at random to grow the city
-            List<Tile> nonCityNeighborTiles = new List<Tile>();
+        //Just a list of all the neighboring grass tiles so one can be chosen at random to grow the city
+        List<Tile> nonCityNeighborTiles = new List<Tile>();
 
-            // Iterate through the neighbors and perform checks
-            foreach (var (x, z) in neighbors)
+        // Iterate through the neighbors and perform checks
+        foreach (var (x, z) in neighbors)
+        {
+            // Check if the coordinates are within grid bounds
+            if (x >= 0 && x < gridWidth && z >= 0 && z < gridHeight)
             {
-                // Check if the coordinates are within grid bounds
-                if (x >= 0 && x < gridWidth && z >= 0 && z < gridHeight)
-                {
-                    var neighborTile = GameObject.Find($"Tile {x} {z}").GetComponent<Tile>();
+                var neighborTile = GameObject.Find($"Tile {x} {z}").GetComponent<Tile>();
 
-                    if (!cityTilesToGrow.Contains(neighborTile))
-                    {
-                        nonCityNeighborTiles.Add(neighborTile);
-                    }
+                if (!currentCities.Contains(neighborTile))
+                {
+                    nonCityNeighborTiles.Add(neighborTile);
                 }
             }
+        }
 
 
-            //Pick a random neighbor
-            if (nonCityNeighborTiles.Count > 0)
-            {
-                var randomIndex = Random.Range(0, nonCityNeighborTiles.Count);
-                var randomNonCityTile = nonCityNeighborTiles[randomIndex];
+        //Pick a random neighbor
+        if (nonCityNeighborTiles.Count > 0)
+        {
+            var randomIndex = Random.Range(0, nonCityNeighborTiles.Count);
+            var randomNonCityTile = nonCityNeighborTiles[randomIndex];
 
-                //Turns the selected random tile into a city
-                randomNonCityTile.Colonize();
-                currentCities.Add(randomNonCityTile);
-            }
+            //Turns the selected random tile into a city
+            randomNonCityTile.Colonize();
+            currentCities.Add(randomNonCityTile);
         }
     }
 }
