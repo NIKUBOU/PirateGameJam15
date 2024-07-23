@@ -1,8 +1,10 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.Runtime.InteropServices.WindowsRuntime;
 using UnityEngine;
 using UnityEngine.UIElements;
+using static UnityEngine.Rendering.DebugUI;
 
 public class GridManager : MonoBehaviour
 {
@@ -37,6 +39,10 @@ public class GridManager : MonoBehaviour
     [Tooltip("A higher value will cause expansion cycles to have more time between them")]
     [SerializeField] private float timeBetweenCityExpansionCycles;
 
+    //How many % cities grow every tick
+    [Tooltip("Controls the % of how many cities grow every tick (values can only range from 0 to 100")]
+    [SerializeField] private int cityGrowthPourcentage;
+
     //At which point do cities stop tiering up
     [SerializeField] private int cityMaxTier;
 
@@ -58,6 +64,9 @@ public class GridManager : MonoBehaviour
 
     private void Start()
     {
+        //Fix values
+        cityGrowthPourcentage = Mathf.Clamp(cityGrowthPourcentage, 0, 100);
+
         //Move the camera
         MoveCamera();
 
@@ -130,35 +139,46 @@ public class GridManager : MonoBehaviour
         //Creates a list of tiles to modify (otherwise when a new city grows it would consider the new city as ungrown)
         List<Tile> citiesToGrow = new List<Tile>();
 
-        //Upgrades tier of cities
-        foreach (var spawnedTile in currentCities)
+        //Checks if the city is upgradable (either by tier up or by colonization
+        foreach (Tile city in currentCities)
         {
-            //If the tile's tier is above 3, it will create a neighboring city
-            if (spawnedTile.TileTier >= cityTierRequiredToGrow)
+            if (city.TileTier < cityMaxTier || FindColonizableNeighbors(city).Count < 0)
             {
-                citiesToGrow.Add(spawnedTile);
+                citiesToGrow.Add(city);
             }
-
-            //Upgrades the city's tier
-            if (spawnedTile.TileTier < cityMaxTier)
-            {
-                spawnedTile.TierUp();
-            }   
         }
 
-        //Colonize neighboring tiles of tier 3 cities
-        foreach (var spawnedTile in citiesToGrow)
+        //Grows a random city
+        for (int gc = 0; gc < (citiesToGrow.Count * cityGrowthPourcentage / 100); gc++)
         {
-            ColonizeNeighbor(spawnedTile);
+            //Picks a random city
+            var cityToUpgrade = citiesToGrow[Random.Range(0, citiesToGrow.Count)];
+
+            //Upgrades the random city
+            UpgradeCity(cityToUpgrade);
         }
     }
 
-    private void ColonizeNeighbor(Tile tileToGrow)
+    private void UpgradeCity(Tile cityToUpgrade)
     {
-        //Checks neighboring tiles if they already are cities
-        
-        var currentTileXID = tileToGrow.XID;
-        var currentTileZID = tileToGrow.ZID;
+        //Create a neighboring city if possible
+        if (cityToUpgrade.TileTier >= cityTierRequiredToGrow)
+        {
+            ColonizeNeighbor(cityToUpgrade);
+        }
+
+        //Upgrades the city's tier if possible
+        if (cityToUpgrade.TileTier < cityMaxTier)
+        {
+            cityToUpgrade.TierUp();
+        }
+    }
+
+    //Checks neighboring tiles if they already are cities
+    private List<Tile> FindColonizableNeighbors(Tile city)
+    {
+        var currentTileXID = city.XID;
+        var currentTileZID = city.ZID;
 
         // Array to store the coordinates of the neighboring tiles
         var neighbors = new (int x, int z)[]
@@ -187,6 +207,12 @@ public class GridManager : MonoBehaviour
             }
         }
 
+        return nonCityNeighborTiles;
+    }
+
+    private void ColonizeNeighbor(Tile tileToGrow)
+    {
+        List<Tile> nonCityNeighborTiles = FindColonizableNeighbors(tileToGrow);
 
         //Pick a random neighbor
         if (nonCityNeighborTiles.Count > 0)
