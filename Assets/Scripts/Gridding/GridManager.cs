@@ -52,6 +52,21 @@ public class GridManager : MonoBehaviour
 
 
 
+    [Header("Plane Management")]
+
+    //Holds the plane spawner prefab
+    [SerializeField] private PlaneSpawner planeSpawner;
+    
+    //Holds all the plane spawners currently ingame
+    private List<PlaneSpawner> planeSpawners;
+
+    //Controls how often do cities expand
+    [Tooltip("A higher value will cause plane spawns to have more time between them")]
+    [SerializeField] private float timeBetweenPlaneSpawns;
+
+
+
+
     [Header("Camera control")]
 
     //Just checks if you want the camera to be moved or not
@@ -75,6 +90,9 @@ public class GridManager : MonoBehaviour
 
         //Starts the growth cycle
         StartCoroutine(CallDevelopCities());
+
+        //Starts the plane spawning cycle
+        StartCoroutine(CallPlaneSpawn());
     }
 
     //Moves the camera to the center of the grid if needed
@@ -121,6 +139,52 @@ public class GridManager : MonoBehaviour
                 spawnedTile.Init(isOffset, isCity, x, z);
             }
         }
+
+        //Generates the plane spawners
+        GenerateSpawners();
+    }
+
+    private void GenerateSpawners()
+    {
+        //Create a list to store the planeSpawners
+        planeSpawners = new List<PlaneSpawner>();
+
+
+        // Iterate over the grid width and height to place plane spawners on the borders
+        for (int x = -1; x <= gridWidth; x++)
+        {
+            for (int z = -1; z <= gridHeight; z++)
+            {
+                // Skip corners
+                if ((x == -1 || x == gridWidth) && (z == -1 || z == gridHeight))
+                {
+                    continue;
+                }
+
+                // Place spawners along the border
+                if (x == -1 || x == gridWidth || z == -1 || z == gridHeight)
+                {
+                    //Spawns the spawner
+                    var spawner = Instantiate(planeSpawner, new Vector3(x, 1, z), Quaternion.identity);
+                    //Changes it's name so it's easier to find
+                    spawner.name = $"Spawner {x} {z}";
+                    //Adds it to the list of spawners so it can be randomly selected later
+                    planeSpawners.Add(spawner);
+
+                    // Determine the direction to face based on the sphere's position
+                    Vector3 directionToFace = x switch
+                    {
+                        -1 => Vector3.right, // Left border, face right
+                        _ when x == gridWidth => Vector3.left, // Right border, face left
+                        _ when z == -1 => Vector3.forward, // Bottom border, face up
+                        _ => Vector3.back // Top border, face down
+                    };
+
+                    // Set the sphere's rotation to face the determined direction
+                    spawner.transform.rotation = Quaternion.LookRotation(directionToFace);
+                }
+            }
+        }
     }
 
     //Does a growth cycle after x amount of time
@@ -130,6 +194,16 @@ public class GridManager : MonoBehaviour
         {
             yield return new WaitForSeconds(timeBetweenCityExpansionCycles);
             DevelopCities();
+        }
+    }
+
+    //Does a spawn cycle after x amount of time
+    private IEnumerator CallPlaneSpawn()
+    {
+        while (true)
+        {
+            yield return new WaitForSeconds(timeBetweenPlaneSpawns);
+            PlaneSpawn();
         }
     }
 
@@ -157,6 +231,18 @@ public class GridManager : MonoBehaviour
             //Upgrades the random city
             UpgradeCity(cityToUpgrade);
         }
+    }
+
+    private void PlaneSpawn()
+    {
+        Debug.Log(planeSpawners.Count);
+
+        //Picks a random spawner
+        var spawnerToSpawn = planeSpawners[Random.Range(0, planeSpawners.Count)];
+
+        //Spawns a plane from that spawner
+        spawnerToSpawn.SpawnPlane();
+
     }
 
     private void UpgradeCity(Tile cityToUpgrade)
