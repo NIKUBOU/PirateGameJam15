@@ -7,8 +7,7 @@ public class PlaneSpawner : MonoBehaviour
     //Holds the plane prefab
     [SerializeField] private GameObject plane;
 
-    private GameManager gM;
-
+    //Spawns a plane on top of the spawner when called
     public void SpawnPlane()
     {
         //Edits the spawn position
@@ -16,6 +15,7 @@ public class PlaneSpawner : MonoBehaviour
 
         //Spawns the plane
         var spawnedPlane = Instantiate(plane, planeSpawnPosition, this.gameObject.transform.rotation);
+        spawnedPlane.name = $"Plane {this.gameObject.name}";
 
         //Grabs the necessary components to make the plane go forward
         var spRB = spawnedPlane.GetComponent<Rigidbody>();
@@ -23,5 +23,19 @@ public class PlaneSpawner : MonoBehaviour
 
         //Makes the plane go forward
         spRB.velocity = spawnedPlane.transform.forward * GameManager.Instance.PlaneSpeed;
+    }
+
+
+    private void OnTriggerEnter(Collider other)
+    {
+        // Try to get the Plane component
+        if (other.TryGetComponent(out Plane plane))
+        {
+            // Check if the ID does not match
+            if (other.name != $"Plane {this.gameObject.name}")
+            {
+                Destroy(other.gameObject);
+            }
+        }
     }
 }

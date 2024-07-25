@@ -93,6 +93,8 @@ GameObject:
   m_Component:
   - component: {fileID: 7339869037092756986}
   - component: {fileID: 2413913555434735041}
+  - component: {fileID: -7070634268848126113}
+  - component: {fileID: -7788973185627305998}
   m_Layer: 0
   m_Name: PlanePlaceholder
   m_TagString: Untagged
@@ -144,6 +146,39 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
+--- !u!65 &-7070634268848126113
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4324587385921591456}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 1
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 1.5, y: 1, z: 0.2}
+  m_Center: {x: 0, y: 0, z: -1}
+--- !u!114 &-7788973185627305998
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4324587385921591456}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 30788f9cd7f00d44082ea335d378a469, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &5821491251148468765
 GameObject:
   m_ObjectHideFlags: 0
