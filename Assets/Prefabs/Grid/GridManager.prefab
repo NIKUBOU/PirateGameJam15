@@ -44,8 +44,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 790e33f07ffca02438ac766a2eac72de, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  gridWidth: 16
-  gridHeight: 9
+  gridWidth: 12
+  gridHeight: 10
   tilePrefab: {fileID: 2487950337153769212, guid: 3a9e161016d6cb4468e52ee3b511d619,
     type: 3}
   maxCitiesAtStart: 3
