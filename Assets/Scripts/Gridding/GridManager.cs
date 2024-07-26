@@ -11,7 +11,7 @@ public class GridManager : MonoBehaviour
     [Header("Grid Layout")]
 
     //Controls the width of the grid
-    [Tooltip("Keep your aspect ratio in mind (by default, keep a 16:9 ratio)")]
+    [Tooltip("Keep your aspect ratio in mind, but remove a few tiles for the mixing UI (by default, keep a 16:9 ratio)")]
     [SerializeField] private int gridWidth;
 
     //Controls the height of the grid
@@ -75,7 +75,7 @@ public class GridManager : MonoBehaviour
 
     //Holds the camera's position so it can be moved at the start of the game
     [Tooltip("Unnecessary if you don't want to center the camera")]
-    [SerializeField] private Transform cam;
+    [SerializeField] private Camera cam;
 
     private void Start()
     {
@@ -98,8 +98,16 @@ public class GridManager : MonoBehaviour
     //Moves the camera to the center of the grid if needed
     private void MoveCamera()
     {
-        cam.transform.position = new Vector3((float)gridWidth / 2 - .5f, gridHeight-1, (float)gridHeight / 2 - .5f);
-        cam.transform.rotation = Quaternion.Euler(90, 0, 0);
+        //Finds the fov
+        float cameraHeight = cam.orthographicSize * 2;
+        float cameraWidth = cameraHeight * cam.aspect;
+
+        // Adjust the camera's position
+        // Align the bottom left of the camera to the bottom left of the grid
+        cam.gameObject.transform.position = new Vector3(-.5f + cameraWidth / 2, gridHeight - 1, -.5f + cameraHeight / 2);
+
+        // Set the camera to look straight down at the grid
+        cam.gameObject.transform.rotation = Quaternion.Euler(90, 0, 0);
     }
 
     private void GenerateGrid()
