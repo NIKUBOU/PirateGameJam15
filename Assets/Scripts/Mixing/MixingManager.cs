@@ -5,6 +5,10 @@ using UnityEngine.UI;
 
 public class MixingManager : MonoBehaviour
 {
+    /// <summary>
+    /// https://www.youtube.com/watch?v=1fbd-yTcMgY&t=403s
+    /// </summary>
+
     //MixingManager Instance
     private static MixingManager instance;
 
@@ -13,6 +17,8 @@ public class MixingManager : MonoBehaviour
     //Setups
     [SerializeField] private Canvas uI;
     [SerializeField] private Slot[] mixingSlots;
+    [Tooltip("Here you can create your recipes")]
+    [SerializeField] private List<Item> gazList;
     private CursorTools cT;
 
     //Variables

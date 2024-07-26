@@ -8,6 +8,10 @@ using static UnityEngine.Rendering.DebugUI;
 
 public class GridManager : MonoBehaviour
 {
+    /// <summary>
+    /// https://www.youtube.com/watch?v=kkAjpQAM-jE
+    /// </summary>
+
     [Header("Grid Layout")]
 
     //Controls the width of the grid
