@@ -17,6 +17,12 @@ public class GameManager : MonoBehaviour
 
     private void Awake()
     {
+        CreateInstance();
+    }
+
+    //Creates an instance of this manager
+    private void CreateInstance()
+    {
         //Instance stuff
         if (instance != null && instance != this)
         {
