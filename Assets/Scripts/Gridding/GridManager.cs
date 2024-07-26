@@ -98,13 +98,13 @@ public class GridManager : MonoBehaviour
     //Moves the camera to the center of the grid if needed
     private void MoveCamera()
     {
-        //Finds the fov
-        float cameraHeight = cam.orthographicSize * 2;
-        float cameraWidth = cameraHeight * cam.aspect;
+        //Tweaks fov
+        cam.orthographicSize = gridHeight / 2;
+        float cameraWidth = gridHeight * cam.aspect;
 
         // Adjust the camera's position
         // Align the bottom left of the camera to the bottom left of the grid
-        cam.gameObject.transform.position = new Vector3(-.5f + cameraWidth / 2, gridHeight - 1, -.5f + cameraHeight / 2);
+        cam.gameObject.transform.position = new Vector3(-.5f + cameraWidth / 2, 100, -.5f + gridHeight / 2);
 
         // Set the camera to look straight down at the grid
         cam.gameObject.transform.rotation = Quaternion.Euler(90, 0, 0);
