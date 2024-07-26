@@ -235,8 +235,6 @@ public class GridManager : MonoBehaviour
 
     private void PlaneSpawn()
     {
-        Debug.Log(planeSpawners.Count);
-
         //Picks a random spawner
         var spawnerToSpawn = planeSpawners[Random.Range(0, planeSpawners.Count)];
 
