@@ -5,16 +5,12 @@ using UnityEngine.UI;
 
 public class IngredientDisplay : MonoBehaviour
 {
-    [SerializeField] private ScriptableIngredient scriptableIngredient;
+    [SerializeField] private Ingredient ingredient;
+    public Ingredient Ingredient {  get { return ingredient; } }
 
     private void Awake()
     {
         //Feeds all the stuff to the ingredient display
-        GetComponent<Image>().sprite = scriptableIngredient.GetSprite();
-    }
-
-    public ScriptableIngredient GetIngredient()
-    {
-        return scriptableIngredient;
+        GetComponent<Image>().sprite = ingredient.GetSprite();
     }
 }

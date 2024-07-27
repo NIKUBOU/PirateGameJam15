@@ -3,11 +3,11 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class MixingSlot : MonoBehaviour
+public class InventorySlot : MonoBehaviour
 {
     //Can be fed an item and it will keep it
-    private Ingredient storedIngredient;
-    public Ingredient StoredIngredient { get { return storedIngredient; } set { storedIngredient = value; } }
+    private Gas storedGas;
+    public Gas StoredGas { get { return storedGas; } set { storedGas = value; } }
 
     private Image image;
     public Sprite Sprite { set { image.sprite = value; } }

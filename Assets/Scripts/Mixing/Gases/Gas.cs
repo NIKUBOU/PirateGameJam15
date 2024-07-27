@@ -2,8 +2,8 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-[CreateAssetMenu(fileName = "New Ingredient", menuName = "Mixing/Ingredient")]
-public class ScriptableIngredient : ScriptableObject
+[CreateAssetMenu(fileName = "New Gas", menuName = "Mixing/Gas")]
+public class Gas : ScriptableObject
 {
     [SerializeField] private Sprite logo;
 
