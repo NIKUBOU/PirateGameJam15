@@ -135,18 +135,9 @@ public class MixingManager : MonoBehaviour
         {
             if (currentGas != null)
             {
-                Debug.Log(currentSlot.name);
-
-                //Leaving Crafting
                 if (currentSlot == resultSlot)
                 {
                     MoveGasFromTableToChest();
-                }
-
-                //Leaving Inventory
-                else
-                {
-                    //
                 }
 
                 //Disable the image on the cursor
