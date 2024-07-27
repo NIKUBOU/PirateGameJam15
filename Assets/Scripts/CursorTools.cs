@@ -25,12 +25,12 @@ public class CursorTools : MonoBehaviour
     }
 
     //Changes the image displayed on the cursor when dragging an item
-    public void ChangeActiveCursorImage(Image newCursorImage)
+    public void ChangeActiveCursorImage(Sprite newCursorImage)
     {
         //Makes the image renderable
         activeImage.enabled = true;
 
-        activeImage.sprite = newCursorImage.sprite;
+        activeImage.sprite = newCursorImage;
     }
 
     public void DisableCursorImage()

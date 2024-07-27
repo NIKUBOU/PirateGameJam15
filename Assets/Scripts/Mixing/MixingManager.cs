@@ -16,13 +16,12 @@ public class MixingManager : MonoBehaviour
 
     //Setups
     [SerializeField] private Canvas uI;
-    [SerializeField] private Slot[] mixingSlots;
-    [Tooltip("Here you can create your recipes")]
-    [SerializeField] private List<Item> gazList;
+    [SerializeField] private MixingSlot[] mixingSlots;
+
     private CursorTools cT;
 
     //Variables
-    private Item currentItem;
+    private ScriptableIngredient currentIngredient;
 
     private void Awake()
     {
@@ -64,50 +63,50 @@ public class MixingManager : MonoBehaviour
         //When let go...
         if (Input.GetMouseButtonUp(0))
         {
-            if (currentItem != null)
+            if (currentIngredient != null)
             {
                 //Disable the image on the cursor
                 cT.DisableCursorImage();
 
                 //Setup for dropping off the item
-                Slot nearestSlot = null;
+                MixingSlot nearestMixingSlot = null;
                 float shortestDistance = float.MaxValue;
 
                 //Check which slot is the closest to the mouse cursor
-                foreach (Slot slot in mixingSlots)
+                foreach (MixingSlot mixingSlot in mixingSlots)
                 {
-                    float dist = Vector2.Distance(Input.mousePosition, slot.transform.position);
+                    float dist = Vector2.Distance(Input.mousePosition, mixingSlot.transform.position);
 
                     //Friendly little contest between the slots lol
                     if (dist < shortestDistance)
                     {
                         shortestDistance = dist;
-                        nearestSlot = slot;
+                        nearestMixingSlot = mixingSlot;
                     }
                 }
 
                 //Make sure the slot is active
-                nearestSlot.gameObject.SetActive(true);
+                nearestMixingSlot.gameObject.SetActive(true);
 
                 //Put the image of the item in the slot
-                nearestSlot.GetComponent<Image>().sprite = currentItem.GetComponent<Image>().sprite;
+                nearestMixingSlot.GetComponent<Image>().sprite = currentIngredient.GetSprite();
 
                 //Store the item properties in the slot
-                nearestSlot.StoredItem = currentItem;
+                nearestMixingSlot.StoredItem = currentIngredient;
 
                 //Drop the item
-                currentItem = null;
+                currentIngredient = null;
             }
         }
     }
 
     //Manages the dropping of items into a slot
-    public void DropItemInSlot(Item item)
+    public void DropItemInSlot(IngredientDisplay ingredientDisplay)
     {
-        if (currentItem == null)
+        if (currentIngredient == null)
         {
-            currentItem = item;
-            cT.ChangeActiveCursorImage(item.GetComponent<Image>());
+            currentIngredient = ingredientDisplay.GetIngredient();
+            cT.ChangeActiveCursorImage(currentIngredient.GetSprite());
         }
     }
 }
