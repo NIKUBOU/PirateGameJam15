@@ -51,5 +51,4 @@ MonoBehaviour:
   resultSlot: {fileID: 0}
   recipes:
   - {fileID: 11400000, guid: 56effb458bf84fb4696df2540526d5b6, type: 2}
-  gasPrefab: {fileID: 4771634820870266041, guid: 09cd516b019c25944820c8aab93e0392,
-    type: 3}
+  - {fileID: 11400000, guid: 5c23050216516fc41934eb354dbc5c53, type: 2}

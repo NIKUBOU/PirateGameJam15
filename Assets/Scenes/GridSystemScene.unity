@@ -2281,28 +2281,6 @@ PrefabInstance:
       objectReference: {fileID: 877631660}
     - target: {fileID: 8516523526126815888, guid: 505cec92ea455e246bc0669ded1cb271,
         type: 3}
-      propertyPath: recipes.Array.size
-      value: 2
-      objectReference: {fileID: 0}
-    - target: {fileID: 8516523526126815888, guid: 505cec92ea455e246bc0669ded1cb271,
-        type: 3}
-      propertyPath: recipes.Array.data[1]
-      value: 
-      objectReference: {fileID: 11400000, guid: 5c23050216516fc41934eb354dbc5c53,
-        type: 2}
-    - target: {fileID: 8516523526126815888, guid: 505cec92ea455e246bc0669ded1cb271,
-        type: 3}
-      propertyPath: recipes.Array.data[2]
-      value: 
-      objectReference: {fileID: 11400000, guid: 5c23050216516fc41934eb354dbc5c53,
-        type: 2}
-    - target: {fileID: 8516523526126815888, guid: 505cec92ea455e246bc0669ded1cb271,
-        type: 3}
-      propertyPath: inventorySlots.Array.size
-      value: 2
-      objectReference: {fileID: 0}
-    - target: {fileID: 8516523526126815888, guid: 505cec92ea455e246bc0669ded1cb271,
-        type: 3}
       propertyPath: mixingSlots.Array.data[0]
       value: 
       objectReference: {fileID: 1250027519}
@@ -2311,16 +2289,6 @@ PrefabInstance:
       propertyPath: mixingSlots.Array.data[1]
       value: 
       objectReference: {fileID: 560357213}
-    - target: {fileID: 8516523526126815888, guid: 505cec92ea455e246bc0669ded1cb271,
-        type: 3}
-      propertyPath: inventorySlots.Array.data[0]
-      value: 
-      objectReference: {fileID: 0}
-    - target: {fileID: 8516523526126815888, guid: 505cec92ea455e246bc0669ded1cb271,
-        type: 3}
-      propertyPath: inventorySlots.Array.data[1]
-      value: 
-      objectReference: {fileID: 0}
     - target: {fileID: 8582310028461903584, guid: 505cec92ea455e246bc0669ded1cb271,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -2596,11 +2564,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: GridManager
-      objectReference: {fileID: 0}
-    - target: {fileID: 3699439039539437148, guid: ff49b548eec587d47bc19d1ece47a346,
-        type: 3}
-      propertyPath: m_IsActive
-      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 8448854739783537637, guid: ff49b548eec587d47bc19d1ece47a346,
         type: 3}

@@ -11,6 +11,12 @@ public class GridManager : MonoBehaviour
     /// <summary>
     /// https://www.youtube.com/watch?v=kkAjpQAM-jE
     /// </summary>
+    /// 
+
+    //GridManager Instance
+    private static GridManager instance;
+
+    public static GridManager Instance { get { return instance; } }
 
     [Header("Grid Layout")]
 
@@ -80,6 +86,24 @@ public class GridManager : MonoBehaviour
     //Holds the camera's position so it can be moved at the start of the game
     [Tooltip("Unnecessary if you don't want to center the camera")]
     [SerializeField] private Camera cam;
+
+    private void Awake()
+    {
+        CreateInstance();
+    }
+
+    //Creates an instance of this manager
+    private void CreateInstance()
+    {
+        //Instance stuff
+        if (instance != null && instance != this)
+        {
+            Destroy(gameObject);
+            return;
+        }
+
+        instance = this;
+    }
 
     private void Start()
     {
@@ -225,17 +249,18 @@ public class GridManager : MonoBehaviour
         //Creates a list of tiles to modify (otherwise when a new city grows it would consider the new city as ungrown)
         List<Tile> citiesToGrow = new List<Tile>();
 
-        //Checks if the city is upgradable (either by tier up or by colonization
+        //Checks if the city is upgradable (either by tier up or by colonization)
         foreach (Tile city in currentCities)
         {
-            if (city.TileTier < cityMaxTier || FindColonizableNeighbors(city).Count < 0)
+            if (city.TileTier < cityMaxTier || FindColonizableNeighbors(city).Count > 0)
             {
                 citiesToGrow.Add(city);
             }
         }
 
+        int citiesToGrowCount = Mathf.CeilToInt(citiesToGrow.Count * cityGrowthPourcentage / 100f);
         //Grows a random city
-        for (int gc = 0; gc < (citiesToGrow.Count * cityGrowthPourcentage / 100); gc++)
+        for (int gc = 0; gc < citiesToGrowCount; gc++)
         {
             //Picks a random city
             var cityToUpgrade = citiesToGrow[Random.Range(0, citiesToGrow.Count)];
@@ -243,6 +268,11 @@ public class GridManager : MonoBehaviour
             //Upgrades the random city
             UpgradeCity(cityToUpgrade);
         }
+    }
+
+    public void RemoveCityFromList(Tile cityToRemove)
+    {
+        currentCities.Remove(cityToRemove);
     }
 
     private void PlaneSpawn()
@@ -296,7 +326,7 @@ public class GridManager : MonoBehaviour
             {
                 var neighborTile = GameObject.Find($"Tile {x} {z}").GetComponent<Tile>();
 
-                if (!currentCities.Contains(neighborTile))
+                if (neighborTile != null && !currentCities.Contains(neighborTile))
                 {
                     nonCityNeighborTiles.Add(neighborTile);
                 }

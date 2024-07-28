@@ -8,10 +8,20 @@ public class Plane : MonoBehaviour
     private Rigidbody rb;
     private float currentMultipliyer = 1;
     public float CurrentMultipliyer { set { currentMultipliyer = value; } }
+    private bool chemtrailActive;
 
     private void Awake()
     {
         rb = GetComponent<Rigidbody>();
+        chemtrailActive = false;
+    }
+
+    private void Update()
+    {
+        if (chemtrailActive)
+        {
+            DestroyCity();
+        }
     }
 
     public void GoForward()
@@ -26,5 +36,24 @@ public class Plane : MonoBehaviour
 
         var spawnedTrail = Instantiate(chemTrail, this.gameObject.transform.position, trailRotation);
         spawnedTrail.transform.parent = this.gameObject.transform;
+
+        chemtrailActive = true;
+    }
+
+    private void DestroyCity()
+    {
+        //Find the city bellow
+        Ray ray = new Ray(transform.position, Vector3.down);
+        RaycastHit hit;
+
+        if (Physics.Raycast(ray, out hit, 2f))
+        {
+            Tile tile = hit.collider.GetComponent<Tile>();
+            if (tile != null)
+            {
+                //Destroy city
+                tile.DestroyCity();
+            }
+        }
     }
 }

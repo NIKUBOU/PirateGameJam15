@@ -27,19 +27,17 @@ public class Tile : MonoBehaviour
         //Fetches the meshRenderer of the tile to edit it's color
         mR = GetComponent<MeshRenderer>();
 
-        //Applies the colors
+        //The city tier
         if (isCity)
         {
-            mR.material = isOffset ? cityOffsetColor : cityBaseColor;
             TierUp();
-        }
-        else
-        {
-            mR.material = isOffset ? offsetColor : baseColor;
         }
 
         //Retains the offset factor for coloring down the line
         offsetTile = isOffset;
+
+        //Color the tile
+        Color();
 
         //Remembers the tile's ID
         xID = _xID;
@@ -60,9 +58,28 @@ public class Tile : MonoBehaviour
         TierUp();
     }
 
+    private void Color()
+    {
+        if (tileTier > 0)
+        {
+            mR.material = offsetTile ? cityOffsetColor : cityBaseColor;
+        }
+        else
+        {
+            mR.material = offsetTile ? offsetColor : baseColor;
+        }
+    }
+
     //Upgrades the tier of the tile
     public void TierUp()
     {
         tileTier++;
+    }
+
+    public void DestroyCity()
+    {
+        tileTier = 0;
+        Color();
+        GridManager.Instance.RemoveCityFromList(this);
     }
 }

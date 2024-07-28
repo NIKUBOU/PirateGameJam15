@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 6045029808391224048}
   - component: {fileID: 5425767257270122921}
   - component: {fileID: 2487950337153769212}
+  - component: {fileID: -4283391746606744438}
   m_Layer: 0
   m_Name: Tile
   m_TagString: Untagged
@@ -104,3 +105,24 @@ MonoBehaviour:
   offsetColor: {fileID: 2100000, guid: 6fccf92699e79104ebe5ddb3932624ab, type: 2}
   cityBaseColor: {fileID: 2100000, guid: 4502a695f197dd847ae1861d19738cf3, type: 2}
   cityOffsetColor: {fileID: 2100000, guid: 92b29856b8c5a264792ec75d5534e7d2, type: 2}
+--- !u!65 &-4283391746606744438
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 694059560043770611}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 1
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 10, y: 2.220446e-16, z: 10}
+  m_Center: {x: 0, y: 0, z: 0}
