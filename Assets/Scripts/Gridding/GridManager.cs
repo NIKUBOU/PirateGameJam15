@@ -25,7 +25,7 @@ public class GridManager : MonoBehaviour
     [SerializeField] private int gridWidth;
 
     //Controls the height of the grid
-    [Tooltip("Keep your aspect ratio in mind (by default, keep a 16:9 ratio)")]
+    [Tooltip("Keep your aspect ratio in mind, must be an even number (by default, keep a 16:9 ratio)")]
     [SerializeField] private int gridHeight;
 
     //Holds the tile prefab so that the code can spawn it

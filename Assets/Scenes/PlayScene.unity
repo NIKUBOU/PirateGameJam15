@@ -2570,6 +2570,16 @@ PrefabInstance:
       propertyPath: cam
       value: 
       objectReference: {fileID: 209663625}
+    - target: {fileID: 8448854739783537637, guid: ff49b548eec587d47bc19d1ece47a346,
+        type: 3}
+      propertyPath: gridWidth
+      value: 20
+      objectReference: {fileID: 0}
+    - target: {fileID: 8448854739783537637, guid: ff49b548eec587d47bc19d1ece47a346,
+        type: 3}
+      propertyPath: gridHeight
+      value: 16
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
