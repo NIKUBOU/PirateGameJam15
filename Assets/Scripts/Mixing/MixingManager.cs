@@ -242,6 +242,7 @@ public class MixingManager : MonoBehaviour
     {        
         foreach (MixingSlot mixingslot in mixingSlots)
         {
+            currentIngredients.Clear();
             ClearMixingSlot(mixingslot);
         }
     }
