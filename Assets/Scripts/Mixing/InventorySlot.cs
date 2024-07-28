@@ -12,13 +12,23 @@ public class InventorySlot : MonoBehaviour
     private Image image;
     public Sprite Sprite { set { image.sprite = value; } }
 
+    private Plane plane;
+
     private void Awake()
     {
-        image = GetComponent<Image>();
+        image = GetComponentInChildren<Image>();
+        plane = GetComponent<Plane>();
     }
 
     public void EnableImage(bool active)
     {
         image.enabled = active;
+    }
+
+    public void OnEquip()
+    {
+        plane.CurrentMultipliyer = storedGas.SpeedMultipliyer;
+        plane.GoForward();
+        plane.StartChemTrail();
     }
 }

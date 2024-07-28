@@ -6,6 +6,8 @@ using UnityEngine;
 public class Gas : ScriptableObject
 {
     [SerializeField] private Sprite logo;
+    [SerializeField] private float speedMultipliyer;
+    public float SpeedMultipliyer { get { return speedMultipliyer; } }
 
     public Sprite GetSprite()
     {

@@ -22,7 +22,7 @@ public class PlaneSpawner : MonoBehaviour
         spRB.useGravity = false;
 
         //Makes the plane go forward
-        spRB.velocity = spawnedPlane.transform.forward * GameManager.Instance.PlaneSpeed;
+        spawnedPlane.GetComponent<Plane>().GoForward();
     }
 
 

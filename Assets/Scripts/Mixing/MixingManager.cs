@@ -28,16 +28,12 @@ public class MixingManager : MonoBehaviour
     [Tooltip("Place all available recipes")]
     [SerializeField] private Recipe[] recipes;
 
-    [Tooltip("Place all slots used to store gases")]
-    [SerializeField] private InventorySlot[] inventorySlots;
-
     private CursorTools cT;
 
     //Variables
     private Ingredient currentIngredient;
     private List<Ingredient> currentIngredients;
     private Gas currentGas;
-    private InventorySlot currentSlot;
 
     private void Awake()
     {
@@ -107,6 +103,9 @@ public class MixingManager : MonoBehaviour
 
                 if (nearestMixingSlot != null)
                 {
+                    //Empty slot
+                    ClearMixingSlot(nearestMixingSlot);
+
                     //Make sure the slot is active
                     nearestMixingSlot.EnableImage(true);
 
@@ -135,41 +134,45 @@ public class MixingManager : MonoBehaviour
         {
             if (currentGas != null)
             {
-                if (currentSlot == resultSlot)
+                //Setup for dropping off the item
+                InventorySlot nearestInventorySlot = null;
+                float shortestDistance = 1;
+
+                //Find all active planes
+                List<InventorySlot> currentPlanes = new List<InventorySlot>(FindObjectsOfType<InventorySlot>());
+
+                // Forget the y transform of the mousePosition for the contest
+                Vector3 mousePosition = Input.mousePosition;
+                mousePosition.z = Camera.main.nearClipPlane; // Use near clip plane to convert screen point to world point
+                Vector3 mouseWorldPosition = Camera.main.ScreenToWorldPoint(mousePosition);
+
+                // Check which slot is the closest to the mouse cursor
+                foreach (InventorySlot inventorySlot in currentPlanes)
                 {
-                    MoveGasFromTableToChest();
+                    Vector3 slotPosition = inventorySlot.transform.position;
+                    slotPosition.y = 0.5f; // Ignore the Y-axis for comparison purposes
+                    mouseWorldPosition.y = 0.5f; // Ensure both points are at the same height for accurate 2D distance
+
+                    float dist = Vector3.Distance(mouseWorldPosition, slotPosition);
+
+                    // Friendly little contest between the slots lol
+                    if (dist < shortestDistance)
+                    {
+                        shortestDistance = dist;
+                        nearestInventorySlot = inventorySlot;
+                    }
+                }
+
+                if (nearestInventorySlot != null)
+                {
+                    StoreGas(nearestInventorySlot);
+
+                    ClearMixingTable();
                 }
 
                 //Disable the image on the cursor
                 cT.DisableCursorImage();
             }
-        }
-    }
-
-    private void MoveGasFromTableToChest()
-    {
-        //Setup for dropping off the item
-        InventorySlot nearestInventorySlot = null;
-        float shortestDistance = 50;
-
-        //Check which slot is the closest to the mouse cursor
-        foreach (InventorySlot inventorySlot in inventorySlots)
-        {
-            float dist = Vector2.Distance(Input.mousePosition, inventorySlot.transform.position);
-
-            //Friendly little contest between the slots lol
-            if (dist < shortestDistance)
-            {
-                shortestDistance = dist;
-                nearestInventorySlot = inventorySlot;
-            }
-        }
-
-        if (nearestInventorySlot != null)
-        {
-            StoreGas(nearestInventorySlot);
-
-            ClearMixingTable();
         }
     }
 
@@ -235,7 +238,6 @@ public class MixingManager : MonoBehaviour
     {
         currentGas = gasDisplay.StoredGas;
         cT.ChangeActiveCursorImage(currentGas.GetSprite());
-        currentSlot = gasDisplay;
     }
 
     private void ClearMixingTable()
@@ -256,13 +258,16 @@ public class MixingManager : MonoBehaviour
         storageSlot.StoredGas = currentGas;
 
         //Put the image of the item in the slot
-        storageSlot.Sprite = currentGas.GetSprite();       
+        storageSlot.Sprite = currentGas.GetSprite();
+
+        if (storageSlot != resultSlot)
+        {
+            //Equips the gasses' effects
+            storageSlot.OnEquip();
+        }
 
         //Clear gas
         currentGas = null;
-
-        //Clear the slot we're using
-        currentSlot = null;
     }
 
     private void ClearInventorySlot(InventorySlot inventorySlot)
@@ -271,7 +276,6 @@ public class MixingManager : MonoBehaviour
         inventorySlot.Sprite = null;
         inventorySlot.StoredGas = null;        
         currentGas = null;
-        currentSlot = null;
     }
 
     public void ClearMixingSlot(MixingSlot mixingSlot)
