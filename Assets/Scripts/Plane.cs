@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class Plane : MonoBehaviour
 {
+    [SerializeField] private float speed;
     [SerializeField] private GameObject chemTrail;
     private Rigidbody rb;
     private float currentMultipliyer = 1;
@@ -26,7 +27,7 @@ public class Plane : MonoBehaviour
 
     public void GoForward()
     {
-        rb.velocity = transform.forward * GameManager.Instance.PlaneSpeed * currentMultipliyer;
+        rb.velocity = transform.forward * speed * currentMultipliyer;
     }
 
     public void ApplyGasEffects(Gas appliedGas)

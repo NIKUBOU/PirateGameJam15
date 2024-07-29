@@ -172,6 +172,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 30788f9cd7f00d44082ea335d378a469, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  speed: 1
   chemTrail: {fileID: 3857521221114982688, guid: 375a1466d5b567f4c94e1cc3f48a09c4,
     type: 3}
 --- !u!114 &-3290192079426882570

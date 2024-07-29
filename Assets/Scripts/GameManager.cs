@@ -9,12 +9,6 @@ public class GameManager : MonoBehaviour
 
     public static GameManager Instance { get { return instance; } }
 
-    [Header("Value Shortcuts")]
-
-    [Tooltip("Controls the base speed of the planes")]
-    [SerializeField] private float planeSpeed;
-    public float PlaneSpeed { get { return planeSpeed; } }
-
     private void Awake()
     {
         CreateInstance();
