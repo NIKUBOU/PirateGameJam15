@@ -10,6 +10,8 @@ public class Tile : MonoBehaviour
     [SerializeField] private Material offsetColor;
     [SerializeField] private Material cityBaseColor;
     [SerializeField] private Material cityOffsetColor;
+    [SerializeField] private GameObject[] cityTiers;
+
     private MeshRenderer mR;
     private bool offsetTile;
 
@@ -70,10 +72,30 @@ public class Tile : MonoBehaviour
         }
     }
 
+    private void RenderBuildings()
+    {
+        if (tileTier > 0)
+        {
+            if (tileTier >= 2)
+            {
+                cityTiers[tileTier - 2].SetActive(false);
+            }
+            cityTiers[tileTier - 1].SetActive(true);
+        }
+        else
+        {
+            foreach (var cityBuilding in cityTiers)
+            {
+                cityBuilding.SetActive(false);
+            }
+        }
+    }
+
     //Upgrades the tier of the tile
     public void TierUp()
     {
         tileTier++;
+        RenderBuildings();
     }
 
     public void DestroyCity()
@@ -81,5 +103,6 @@ public class Tile : MonoBehaviour
         tileTier = 0;
         Color();
         GridManager.Instance.RemoveCityFromList(this);
+        RenderBuildings();
     }
 }

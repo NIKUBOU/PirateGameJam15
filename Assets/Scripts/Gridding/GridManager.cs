@@ -201,7 +201,7 @@ public class GridManager : MonoBehaviour
                 if (x == -1 || x == gridWidth || z == -1 || z == gridHeight)
                 {
                     //Spawns the spawner
-                    var spawner = Instantiate(planeSpawner, new Vector3(x, .5f, z), Quaternion.identity);
+                    var spawner = Instantiate(planeSpawner, new Vector3(x, 2, z), Quaternion.identity);
                     //Changes it's name so it's easier to find
                     spawner.name = $"Spawner {x} {z}";
                     //Adds it to the list of spawners so it can be randomly selected later

@@ -136,7 +136,7 @@ public class MixingManager : MonoBehaviour
             {
                 //Setup for dropping off the item
                 InventorySlot nearestInventorySlot = null;
-                float shortestDistance = 1;
+                float shortestDistance = 4;
 
                 //Find all active planes
                 List<InventorySlot> currentPlanes = new List<InventorySlot>(FindObjectsOfType<InventorySlot>());
@@ -150,8 +150,8 @@ public class MixingManager : MonoBehaviour
                 foreach (InventorySlot inventorySlot in currentPlanes)
                 {
                     Vector3 slotPosition = inventorySlot.transform.position;
-                    slotPosition.y = 0.5f; // Ignore the Y-axis for comparison purposes
-                    mouseWorldPosition.y = 0.5f; // Ensure both points are at the same height for accurate 2D distance
+                    slotPosition.y = 2; // Ignore the Y-axis for comparison purposes
+                    mouseWorldPosition.y = 2; // Ensure both points are at the same height for accurate 2D distance
 
                     float dist = Vector3.Distance(mouseWorldPosition, slotPosition);
 
