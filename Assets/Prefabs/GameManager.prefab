@@ -44,4 +44,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2e7c04ef2fce0df40bb22f32f42e98e2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  planeSpeed: 1
+  scoreboard: {fileID: 0}
+  winScore: 1000

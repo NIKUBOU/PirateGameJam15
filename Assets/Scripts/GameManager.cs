@@ -1,7 +1,9 @@
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using UnityEngine.UI;
 
 public class GameManager : MonoBehaviour
 {
@@ -10,9 +12,21 @@ public class GameManager : MonoBehaviour
 
     public static GameManager Instance { get { return instance; } }
 
+    private GameObject scoreboard;
+    private Slider scoreboardSlider;
+    private TextMeshProUGUI scoreDisplay;
+
+    [SerializeField] int winScore;
+    private int score;
+
+    private float timer;
+    private float bestTime = float.MaxValue;
+
     private void Awake()
     {
         CreateInstance();
+
+        DontDestroyOnLoad(this.gameObject);
     }
 
     //Creates an instance of this manager
@@ -28,7 +42,55 @@ public class GameManager : MonoBehaviour
         instance = this;
     }
 
-    public void OnPlayButton()
+    private void Update()
+    {
+        if (scoreboard != null)
+        {
+            ScoreUpdate();
+        }
+    }
+
+    private void ScoreSetup()
+    {
+        if (scoreboard != null)
+        {
+            scoreboardSlider = scoreboard.GetComponentInChildren<Slider>();
+            scoreboardSlider.maxValue = winScore;
+
+            score = 0;
+            scoreboardSlider.value = score;
+
+            scoreDisplay = scoreboard.GetComponentInChildren<TextMeshProUGUI>();
+            scoreDisplay.text = $"Score: {score} / {winScore}";
+
+            timer = 0;
+        }
+    }
+
+    private void ScoreUpdate()
+    {
+        scoreboardSlider.value = score;
+        scoreDisplay.text = $"Score: {score} / {winScore}";
+
+        timer += Time.deltaTime;
+
+        if (score >= winScore)
+        {
+            LoadNextScene();
+        }
+    }
+
+    private void OnEnable()
+    {
+        SceneManager.sceneLoaded += OnSceneLoaded;
+    }
+
+    private void OnDisable()
+    {
+        SceneManager.sceneLoaded -= OnSceneLoaded;
+    }
+
+    public void LoadNextScene()
     {
         int currentSceneIndex = SceneManager.GetActiveScene().buildIndex;
         int nextSceneIndex = currentSceneIndex + 1;
@@ -40,13 +102,43 @@ public class GameManager : MonoBehaviour
         }
         else
         {
-            Debug.LogWarning("Next scene index is out of range. Check your build settings.");
+            SceneManager.LoadScene(0);
         }
     }
 
-    public void OnMainMenuButton()
+    private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
     {
-        SceneManager.LoadScene(0);
+        if (scene.buildIndex == 1)
+        {
+            scoreboard = GameObject.Find("Scoreboard");
+            ScoreSetup();
+        }
+        else
+        {
+            FindObjectOfType<Button>().onClick.AddListener(LoadNextScene);
+
+            if (scene.buildIndex == SceneManager.sceneCountInBuildSettings - 1)
+            {
+                UpdateGameOverScoreboard();
+            }
+        }
+    }
+
+    private void UpdateGameOverScoreboard()
+    {
+        var gameOverScoreboard = GameObject.Find("Scoreboard");
+        var gameOverScoreboardScoreDisplay = gameOverScoreboard.GetComponent<TextMeshProUGUI>();
+
+        if (timer < bestTime)
+        {
+            bestTime = timer;
+        }
+        gameOverScoreboardScoreDisplay.text = $"You beat the game in {timer} seconds. Your best time so far is {bestTime}.";
+    }
+
+    public void AddScore(int scoreToAdd)
+    {
+        score += scoreToAdd;
     }
 
 }

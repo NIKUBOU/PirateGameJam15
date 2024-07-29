@@ -100,9 +100,19 @@ public class Tile : MonoBehaviour
 
     public void DestroyCity()
     {
+        //Adds score = tile tier
+        GameManager.Instance.AddScore(tileTier);
+
+        //Reset tile tier
         tileTier = 0;
+
+        //Recolor it
         Color();
+
+        //Remove it form the list of cities
         GridManager.Instance.RemoveCityFromList(this);
+
+        //Remove buildings
         RenderBuildings();
     }
 }
