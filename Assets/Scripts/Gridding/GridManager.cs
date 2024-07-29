@@ -201,7 +201,7 @@ public class GridManager : MonoBehaviour
                 if (x == -1 || x == gridWidth || z == -1 || z == gridHeight)
                 {
                     //Spawns the spawner
-                    var spawner = Instantiate(planeSpawner, new Vector3(x, 2, z), Quaternion.identity);
+                    var spawner = Instantiate(planeSpawner, new Vector3(x, 10, z), Quaternion.identity);
                     //Changes it's name so it's easier to find
                     spawner.name = $"Spawner {x} {z}";
                     //Adds it to the list of spawners so it can be randomly selected later
@@ -303,8 +303,25 @@ public class GridManager : MonoBehaviour
     //Checks neighboring tiles if they already are cities
     private List<Tile> FindColonizableNeighbors(Tile city)
     {
-        var currentTileXID = city.XID;
-        var currentTileZID = city.ZID;
+        //Just a list of all the neighboring grass tiles so one can be chosen at random to grow the city
+        List<Tile> nonCityNeighborTiles = new List<Tile>();
+
+        foreach (Tile nonCity in FindNeighbors(city))
+        {
+            if (nonCity != null && !currentCities.Contains(nonCity))
+            {
+                nonCityNeighborTiles.Add(nonCity);
+            }
+        }
+
+        return nonCityNeighborTiles;      
+    }
+
+    //Checks neighboring tiles to destroy them
+    public List<Tile> FindNeighbors(Tile tile)
+    {
+        var currentTileXID = tile.XID;
+        var currentTileZID = tile.ZID;
 
         // Array to store the coordinates of the neighboring tiles
         var neighbors = new (int x, int z)[]
@@ -316,7 +333,7 @@ public class GridManager : MonoBehaviour
         };
 
         //Just a list of all the neighboring grass tiles so one can be chosen at random to grow the city
-        List<Tile> nonCityNeighborTiles = new List<Tile>();
+        List<Tile> neighborTiles = new List<Tile>();
 
         // Iterate through the neighbors and perform checks
         foreach (var (x, z) in neighbors)
@@ -326,14 +343,14 @@ public class GridManager : MonoBehaviour
             {
                 var neighborTile = GameObject.Find($"Tile {x} {z}").GetComponent<Tile>();
 
-                if (neighborTile != null && !currentCities.Contains(neighborTile))
+                if (neighborTile != null)
                 {
-                    nonCityNeighborTiles.Add(neighborTile);
+                    neighborTiles.Add(neighborTile);
                 }
             }
         }
 
-        return nonCityNeighborTiles;
+        return neighborTiles;
     }
 
     private void ColonizeNeighbor(Tile tileToGrow)

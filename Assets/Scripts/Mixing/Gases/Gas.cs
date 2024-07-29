@@ -6,11 +6,13 @@ using UnityEngine;
 public class Gas : ScriptableObject
 {
     [SerializeField] private Sprite logo;
-    [SerializeField] private float speedMultipliyer;
-    public float SpeedMultipliyer { get { return speedMultipliyer; } }
+    public Sprite Logo { get {  return logo; } }
 
-    public Sprite GetSprite()
-    {
-        return logo;
-    }
+    //Effects
+    private int neighboringTileCalls;
+    public int NeighboringTileCall {  get { return neighboringTileCalls; } set { neighboringTileCalls = value; } }
+    private float speedMultiplyer;
+    public float SpeedMultiplyer { get { return speedMultiplyer; } set { speedMultiplyer = value; } }
+    private int rotation;
+    public int Rotation { get { return rotation; } set { rotation = value; } }
 }

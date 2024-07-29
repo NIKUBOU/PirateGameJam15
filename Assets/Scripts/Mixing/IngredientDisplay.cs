@@ -11,6 +11,6 @@ public class IngredientDisplay : MonoBehaviour
     private void Awake()
     {
         //Feeds all the stuff to the ingredient display
-        GetComponent<Image>().sprite = ingredient.GetSprite();
+        GetComponent<Image>().sprite = ingredient.Logo;
     }
 }

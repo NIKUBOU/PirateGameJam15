@@ -27,8 +27,7 @@ public class InventorySlot : MonoBehaviour
 
     public void OnEquip()
     {
-        plane.CurrentMultipliyer = storedGas.SpeedMultipliyer;
-        plane.GoForward();
+        plane.ApplyGasEffects(storedGas);
         plane.StartChemTrail();
     }
 }

@@ -110,7 +110,7 @@ public class MixingManager : MonoBehaviour
                     nearestMixingSlot.EnableImage(true);
 
                     //Put the image of the item in the slot
-                    nearestMixingSlot.Sprite = currentIngredient.GetSprite();
+                    nearestMixingSlot.Sprite = currentIngredient.Logo;
 
                     //Store the item properties in the slot
                     nearestMixingSlot.StoredIngredient = currentIngredient;
@@ -150,8 +150,8 @@ public class MixingManager : MonoBehaviour
                 foreach (InventorySlot inventorySlot in currentPlanes)
                 {
                     Vector3 slotPosition = inventorySlot.transform.position;
-                    slotPosition.y = 2; // Ignore the Y-axis for comparison purposes
-                    mouseWorldPosition.y = 2; // Ensure both points are at the same height for accurate 2D distance
+                    slotPosition.y = 10; // Ignore the Y-axis for comparison purposes
+                    mouseWorldPosition.y = 10; // Ensure both points are at the same height for accurate 2D distance
 
                     float dist = Vector3.Distance(mouseWorldPosition, slotPosition);
 
@@ -196,11 +196,28 @@ public class MixingManager : MonoBehaviour
             if (HasIngredients(recipe, providedIngredients))
             {
                 currentGas = recipe.ResultGas;
+                ApplyGasEffects(currentGas, recipe);
                 return recipe.ResultGas;
             }
         }
 
         return null;
+    }
+
+    private void ApplyGasEffects(Gas appliedGas, Recipe appliedRecipe)
+    {
+        //Clear effects
+        appliedGas.NeighboringTileCall = 0;
+        appliedGas.Rotation = 0;
+        appliedGas.SpeedMultiplyer = 1;
+
+        //Apply ingredient effects to the gas
+        foreach (Ingredient ingredient in appliedRecipe.Ingredients)
+        {
+            appliedGas.NeighboringTileCall += ingredient.NeighboringTileCalls;
+            appliedGas.Rotation += ingredient.Rotation;
+            appliedGas.SpeedMultiplyer = ingredient.SpeedMultiplyer;
+        }
     }
 
     private bool HasIngredients(Recipe recipe, List<Ingredient> currentIngredients)
@@ -230,14 +247,14 @@ public class MixingManager : MonoBehaviour
         if (currentIngredient == null)
         {
             currentIngredient = ingredientDisplay.Ingredient;
-            cT.ChangeActiveCursorImage(currentIngredient.GetSprite());
+            cT.ChangeActiveCursorImage(currentIngredient.Logo);
         }
     }
 
     public void DropGasInSlot(InventorySlot gasDisplay)
     {
         currentGas = gasDisplay.StoredGas;
-        cT.ChangeActiveCursorImage(currentGas.GetSprite());
+        cT.ChangeActiveCursorImage(currentGas.Logo);
     }
 
     private void ClearMixingTable()
@@ -258,7 +275,7 @@ public class MixingManager : MonoBehaviour
         storageSlot.StoredGas = currentGas;
 
         //Put the image of the item in the slot
-        storageSlot.Sprite = currentGas.GetSprite();
+        storageSlot.Sprite = currentGas.Logo;
 
         if (storageSlot != resultSlot)
         {

@@ -7,7 +7,7 @@ public class Plane : MonoBehaviour
     [SerializeField] private GameObject chemTrail;
     private Rigidbody rb;
     private float currentMultipliyer = 1;
-    public float CurrentMultipliyer { set { currentMultipliyer = value; } }
+    private int currentDestroyMultiplyer = 0;
     private bool chemtrailActive;
 
     private void Awake()
@@ -29,6 +29,21 @@ public class Plane : MonoBehaviour
         rb.velocity = transform.forward * GameManager.Instance.PlaneSpeed * currentMultipliyer;
     }
 
+    public void ApplyGasEffects(Gas appliedGas)
+    {
+        //Rotation
+        this.gameObject.transform.Rotate(0, this.gameObject.transform.rotation.y + appliedGas.Rotation, 0);
+
+        //Speed
+        currentMultipliyer = appliedGas.SpeedMultiplyer;
+
+        //Destroy Neighbors
+        currentDestroyMultiplyer = appliedGas.NeighboringTileCall;
+
+        //Apply movement
+        GoForward();
+    }
+
     public void StartChemTrail()
     {
         //Get the rotation of the trail opposite of the current forward direction
@@ -46,13 +61,33 @@ public class Plane : MonoBehaviour
         Ray ray = new Ray(transform.position, Vector3.down);
         RaycastHit hit;
 
-        if (Physics.Raycast(ray, out hit, 2f))
+        if (Physics.Raycast(ray, out hit, float.MaxValue))
         {
             Tile tile = hit.collider.GetComponent<Tile>();
             if (tile != null)
             {
-                //Destroy city
+                //Destroy cities
                 tile.DestroyCity();
+
+                if (currentDestroyMultiplyer == 1)
+                {
+                    foreach (Tile tileToDestroy in GridManager.Instance.FindNeighbors(tile))
+                    {
+                        tileToDestroy.DestroyCity();
+                    }
+                }
+                else if (currentDestroyMultiplyer >= 2)
+                {
+                    foreach (Tile tileToDestroy in GridManager.Instance.FindNeighbors(tile))
+                    {
+                        tileToDestroy.DestroyCity();
+
+                        foreach (Tile neighborTileToDestroy in GridManager.Instance.FindNeighbors(tileToDestroy))
+                        {
+                            neighborTileToDestroy.DestroyCity();
+                        }
+                    }
+                }
             }
         }
     }
