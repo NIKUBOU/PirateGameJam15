@@ -43,4 +43,9 @@ public class SceneInstance : MonoBehaviour
             Debug.LogWarning("Next scene index is out of range. Check your build settings.");
         }
     }
+
+    public void OnMainMenuButton()
+    {
+        SceneManager.LoadScene(0);
+    }
 }
