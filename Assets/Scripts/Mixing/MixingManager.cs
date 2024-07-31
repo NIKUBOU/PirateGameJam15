@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using Unity.VisualScripting;
 using UnityEditor.Rendering.Universal;
 using UnityEngine;
@@ -222,23 +223,27 @@ public class MixingManager : MonoBehaviour
 
     private bool HasIngredients(Recipe recipe, List<Ingredient> currentIngredients)
     {
-        if (currentIngredients.Count > 1)
-        {
+        // Create a copy of the current ingredients list to avoid modifying the original list
+        List<Ingredient> ingredientsCopy = new List<Ingredient>(currentIngredients);
 
-            foreach (var recipeIngredient in recipe.Ingredients)
+        // Check if the recipe ingredients are all in the current ingredients
+        foreach (var recipeIngredient in recipe.Ingredients)
+        {
+            // Try to find a matching ingredient in the current ingredients copy
+            if (ingredientsCopy.Contains(recipeIngredient))
             {
-                if (!currentIngredients.Contains(recipeIngredient))
-                {
-                    return false;
-                }
+                // Remove the ingredient from the copy to account for multiple instances
+                ingredientsCopy.Remove(recipeIngredient);
             }
+            else
+            {
+                // If any ingredient is not found, return false
+                return false;
+            }
+        }
 
-            return true;
-        }
-        else
-        {
-            return false;
-        }
+        // If all recipe ingredients are found, return true
+        return true;
     }
 
     //Manages the dropping of ingredients into a slot
