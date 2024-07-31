@@ -10,9 +10,9 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: c1c40db7937880244840fb6214404deb, type: 3}
-  m_Name: IngredientTemplate 2
+  m_Name: Turn Left
   m_EditorClassIdentifier: 
-  logo: {fileID: 21300000, guid: d0c1c787659436440b09c8f463f97a14, type: 3}
-  neighboringTileCalls: 1
+  logo: {fileID: 21300000, guid: 0189157174df42245b8d7c74368b015b, type: 3}
+  neighboringTileCalls: 0
   speedMultiplyer: 1
-  rotation: 0
+  rotation: -90

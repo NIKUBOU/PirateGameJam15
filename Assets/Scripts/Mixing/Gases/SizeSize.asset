@@ -10,6 +10,6 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 80f5c2e51e6d0bf4895d95b17c89b7eb, type: 3}
-  m_Name: GasTemplate 8
+  m_Name: SizeSize
   m_EditorClassIdentifier: 
-  logo: {fileID: 21300000, guid: bad2c54499b6c384d90b70b4ba800699, type: 3}
+  logo: {fileID: 21300000, guid: 9009733261c1e7e4f842b1563dcce54a, type: 3}

@@ -10,9 +10,9 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: c1c40db7937880244840fb6214404deb, type: 3}
-  m_Name: IngredientTemplate
+  m_Name: SpeedBoost
   m_EditorClassIdentifier: 
-  logo: {fileID: 21300000, guid: 0189157174df42245b8d7c74368b015b, type: 3}
+  logo: {fileID: 21300000, guid: 852bf2a28053af94980dca6a81888464, type: 3}
   neighboringTileCalls: 0
-  speedMultiplyer: 1
-  rotation: -90
+  speedMultiplyer: 2
+  rotation: 0
