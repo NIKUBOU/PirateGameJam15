@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c1c40db7937880244840fb6214404deb, type: 3}
   m_Name: IngredientTemplate
   m_EditorClassIdentifier: 
-  logo: {fileID: 10901, guid: 0000000000000000f000000000000000, type: 0}
-  neighboringTileCalls: 1
+  logo: {fileID: 21300000, guid: 0189157174df42245b8d7c74368b015b, type: 3}
+  neighboringTileCalls: 0
   speedMultiplyer: 1
-  rotation: 0
+  rotation: -90

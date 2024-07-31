@@ -12,5 +12,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 80f5c2e51e6d0bf4895d95b17c89b7eb, type: 3}
   m_Name: GasTemplate 1
   m_EditorClassIdentifier: 
-  logo: {fileID: 10913, guid: 0000000000000000f000000000000000, type: 0}
-  speedMultipliyer: 2
+  logo: {fileID: 21300000, guid: 99e4c2ed585c66e44a64fc43b4de721f, type: 3}

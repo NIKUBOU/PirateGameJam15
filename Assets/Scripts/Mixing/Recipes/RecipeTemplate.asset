@@ -13,6 +13,6 @@ MonoBehaviour:
   m_Name: RecipeTemplate
   m_EditorClassIdentifier: 
   ingredients:
-  - {fileID: 11400000, guid: ddf7c644ef4abcf4897f7b6beea5c9b4, type: 2}
-  - {fileID: 11400000, guid: cb046e0c155d2f24cb71397c6683f3fa, type: 2}
+  - {fileID: 11400000, guid: 489807bde6bd2374189680ff834d9a9a, type: 2}
+  - {fileID: 11400000, guid: 489807bde6bd2374189680ff834d9a9a, type: 2}
   resultGas: {fileID: 11400000, guid: 3250aa72082ac434cb434adef437d575, type: 2}
